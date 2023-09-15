@@ -1,0 +1,54 @@
+body{
+    background-color: white;
+}
+
+h1{
+    color: green;
+}
+
+#title{
+    margin-left: 45%;
+}
+
+p{
+    font-size: 25px;
+    float: left;
+    color: green;
+    margin-left: 20px;
+}
+
+
+#lang{
+    float: right;
+    height: 30px;
+    border-right: 20px;
+}
+
+
+#outputs{
+    display: flex;
+    width:auto;
+    margin-top: 40px;
+    margin-left: 50px ;
+
+}
+
+#outputs div{
+    width: 50%;
+}
+
+table, th, td {
+  
+    border:1px solid black;
+    border-collapse: collapse;
+  }
+table{
+    width: 500px;
+    height: 500px;
+    margin-top: 50px;
+}
+
+
+
+
+

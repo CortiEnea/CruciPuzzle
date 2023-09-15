@@ -1,0 +1,43 @@
+@startuml
+
+class Gioco{
+
+    nParole:int
+    parole[]:array
+    dizonario:File
+    difficoltà:InputUtente
+    livello:Livello
+    parolaNascosta:String
+    font:InputUtente
+    
+}
+
+class Export{
+    
+    creaFile:Html
+    export:png
+
+}
+
+
+class GeneraGriglia{
+    
+    grigliaVuota[][]:array
+    grigliaParole[][]:array
+
+}
+
+
+class InputUtente{
+
+    modalità:String
+    difficoltà:String 
+    Font:String
+
+}
+
+
+
+
+
+@enduml
