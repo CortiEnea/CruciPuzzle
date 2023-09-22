@@ -12,9 +12,6 @@ function readFile() {
     console.log(prova);
     //giraParola();
     stampa();
-
-  
-
   };
 
   reader.readAsText(file);
@@ -23,7 +20,6 @@ function readFile() {
 
 
 function stampa() {
-
 
 
 for(var i = 0; i < prova.length; i++){
