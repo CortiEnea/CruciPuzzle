@@ -1,7 +1,7 @@
 var listaParole;
 
 
-
+// funzione che serve per leggere il file che inserisce l'utente.
 function readFile() {
   var fileInput = document.getElementById('dizionario');
   var file = fileInput.files[0]; // Ottieni il primo file selezionato
@@ -10,9 +10,6 @@ function readFile() {
     var parole = e.target.result;
 
     listaParole = parole.split('\n');
-
-
-
     //giraParola();
 
     stampa();
@@ -21,10 +18,10 @@ function readFile() {
   reader.readAsText(file);
 
 }
+// ------------------------------------------------------------------------------------------------------------------------
 
 // funzione per la stampa delle parole 
 function stampa() {
-
 
   for (var i = 0; i < listaParole.length; i++) {
 
@@ -53,12 +50,16 @@ function stampa() {
 
 
   }
-  griglia();
+  //griglia();
 
   generaArray();
 }
 
+// ------------------------------------------------------------------------------------------------------------------------
 
+// vecchia funzione che stampava una table, non più utilizzato
+
+/*
 function griglia() {
 
 
@@ -76,8 +77,11 @@ function griglia() {
 
 
 }
+*/
 
+// ------------------------------------------------------------------------------------------------------------------------
 
+// funzione usata per girare la parola passata
 function giraParola() {
 
   for (var i = 0; i < 20; i++) {
@@ -95,6 +99,11 @@ function reverseString(str) {
 }
 
 
+// ------------------------------------------------------------------------------------------------------------------------
+
+// funzione che serve a inserire le parole nella table
+
+
 function generaArray() {
   var a = new Array(25);
 
@@ -102,20 +111,15 @@ function generaArray() {
     a[s] = new Array(25);
   }
 
-
   for (var col = 0; col < 10; col++) {
+    
     var parolaRan = Math.floor(Math.random() * 1000);
     parolaRan = listaParole[parolaRan];
     parolaRan = parolaRan.toUpperCase();
     var x = Math.floor(Math.random() * (25 - parolaRan.length));
     var y = Math.floor(Math.random() * (25 - parolaRan.length));
 
-
     for (var riga = 0; riga < parolaRan.length; riga++) {
-      // console.log(parolaRan.length);
-      // console.log(parolaRan);
-      // console.log(parolaRan[riga]);
-
       console.log(`parola ${parolaRan}, riga ${riga}, col ${col}, len ${parolaRan.length}`);
 
       a[x][y] = parolaRan[riga];
@@ -123,10 +127,8 @@ function generaArray() {
     }
 
   }
-
-
-
   var table = "<table>";
+
   for (var col = 0; col < a.length; col++) {
     table += "<tr>";
     for (var riga = 0; riga < a[col].length; riga++) {
@@ -142,6 +144,6 @@ function generaArray() {
   table += "</table>";
   document.getElementById('si').innerHTML = table;
 
-
 }
+
 
