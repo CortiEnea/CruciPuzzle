@@ -63,120 +63,166 @@ function generaArray() {
         a[i] = new Array(10);
     }
 
-    // stampa obliqua
 
 
-
-
-    for (var riga = 0; riga < 10;) {
+    for (var riga = 0; riga < 50;) {
 
         var parolaRan = Math.floor(Math.random() * 1000); // numero casuale per parola
         parolaRan = listaParole[parolaRan]; // prende numero casuale per la lista
         parolaRan = parolaRan.toUpperCase(); // mette tuttte le lettere in maiuscolo
+        var x;
+        var y;
+        if (riga >= 25) {
+            parolaRan = reverseString(parolaRan);
+        }
+        var direzione = dir[Math.floor(Math.random() * 3)];
 
-        var direzione = dir[Math.floor(Math.random()*3)];
-       
+        // in base alla direzione faccio i random per le cordinate
 
-        if(direzione == "v"){
-            var x = Math.floor(Math.random() * (10 - parolaRan.length));
-            var y = Math.floor(Math.random() * (10));
-        }else if(direzione == "ob"){
-            var x = Math.floor(Math.random() * (10 - parolaRan.length));
-            var y = Math.floor(Math.random() * (10- parolaRan.length));
-        }else if(direzione == "or"){
-            var x = Math.floor(Math.random() * (10));
-            var y = Math.floor(Math.random() * (10- parolaRan.length));
-        }else{
+
+        if (direzione == "v") {
+            y = Math.floor(Math.random() * (10 - parolaRan.length));
+            x = Math.floor(Math.random() * (10));
+        } else if (direzione == "ob") {
+            y = Math.floor(Math.random() * (10 - parolaRan.length));
+            x = Math.floor(Math.random() * (10 - parolaRan.length));
+        } else if (direzione == "or") {
+            y = Math.floor(Math.random() * (10));
+            x = Math.floor(Math.random() * (10 - parolaRan.length));
+        } else {
             console.log("m");
         }
-        
-   
 
-        if (x >= 0 || y >= 0) {
 
-            if(direzione == "v"){
-                if (controllaVerticale(parolaRan, x, y)) {
+        if (y >= 0 || x >= 0) {
 
-                    for (var i = 0; i < parolaRan.length; i++) {
-                        console.log(`parola ${parolaRan}, riga ${col}, col ${riga}, len ${parolaRan.length}`);
-                        a[x][y] = parolaRan[i];
-                     
-                        x++;
-    
-                    }
-                    riga++;
-    
-                }
-            }else if(direzione == "or"){
-                if (controllaOrizzontale(parolaRan, x, y)) {
+            if (direzione == "v") {
 
-                    for (var i = 0; i < parolaRan.length; i++) {
-                        console.log(`parola ${parolaRan}, riga ${col}, col ${riga}, len ${parolaRan.length}`);
-                        a[x][y] = parolaRan[i];
-                        
-                        y++;
-    
-                    }
-                    riga++;
-    
-                }
-            }else if(direzione == "ob"){
-                if(controllaObliquo(parolaRan, x, y)){
-                    for (var i = 0; i < parolaRan.length; i++) {
-                        console.log(`parola ${parolaRan}, riga ${col}, col ${riga}, len ${parolaRan.length}`);
-                        a[x][y] = parolaRan[i];
-                        x++;
-                        y++;
-    
-                    }
-                    riga++;
-                }
+                verticale();
+
+
+            } else if (direzione == "or") {
+
+                orizzontale();
+
+            } else if (direzione == "ob") {
+
+                obliquo();
+
             }
-            
+
 
         }
-
-
 
     }
 
 
     //-----------------------------------------------------------------------------------------------------------------------------------------
 
+    // funzione di stampa obliqua
 
+    function verticale() {
+        if (controllaVerticale(parolaRan, y, x)) {
 
-    function controllaVerticale(parola, X, Y) {
+            for (var i = 0; i < parolaRan.length; i++) {
+                console.log(`parola ${parolaRan}, riga ${y}, col ${x}, len ${parolaRan.length}, verticale`);
+                a[y][x] = parolaRan[i];
 
-        if (X >= 0 || Y >= 0) {
-            for (var i = 0; i < parola.length; i++) {
-                if (a[X][Y] == parola[i] || a[X][Y] == null) {
-                    X++;
-              
-                } else {
-                    return false;
-                }
-            } 
-            return true;
-        }else{
-            return false;
+                y++;
+
+            }
+            riga++;
+
         }
     }
+
+    // funzione di stampa obliqua
+
+    function orizzontale() {
+        if (controllaOrizzontale(parolaRan, y, x)) {
+
+            for (var i = 0; i < parolaRan.length; i++) {
+                console.log(`parola ${parolaRan}, riga ${y}, col ${x}, len ${parolaRan.length}, orizzontale`);
+                a[y][x] = parolaRan[i];
+
+                x++;
+
+            }
+            riga++;
+
+        }
+    }
+
+    // funzione di stampa obliqua
+
+    function obliquo() {
+
+        if (controllaObliquo(parolaRan, y, x)) {
+            for (var i = 0; i < parolaRan.length; i++) {
+                console.log(`parola ${parolaRan}, riga ${y}, col ${x}, len ${parolaRan.length}, obliquo`);
+                a[y][x] = parolaRan[i];
+                y++;
+                x++;
+
+            }
+            riga++;
+        }
+    }
+
+    function nRandom(x, y, direzione) {
+
+    }
+
+
+
+    // controllo che sia possibile stampare in verticale
+
+    function controllaVerticale(parola, Y, X) {
+        try {
+            if (Y >= 0 || X >= 0) {
+                for (var i = 0; i < parola.length; i++) {
+                    if (a[Y][X] == parola[i] || a[Y][X] == null) {
+                        Y++;
+
+                    } else {
+                        return false;
+                    }
+                }
+                return true;
+            } else {
+                return false;
+            }
+        } catch {
+            return false;
+        }
+
+    }
+
+
+    // controllo che sia possibile stampare in orizzontale
+
+
     function controllaOrizzontale(parola, X, Y) {
 
         if (X >= 0 || Y >= 0) {
             for (var i = 0; i < parola.length; i++) {
                 if (a[X][Y] == parola[i] || a[X][Y] == null) {
                     Y++;
-              
+
                 } else {
                     return false;
                 }
-            } 
+            }
             return true;
-        }else{
+        } else {
             return false;
         }
     }
+
+
+
+    // controllo che sia possibile stampare in obliquo
+
     function controllaObliquo(parola, X, Y) {
 
         if (X >= 0 || Y >= 0) {
@@ -184,37 +230,32 @@ function generaArray() {
                 if (a[X][Y] == parola[i] || a[X][Y] == null) {
                     Y++;
                     X++;
-              
+
                 } else {
                     return false;
                 }
-            } 
+            }
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
+    //--------------------------------------------------------------------------------------------------------------------------------------
+
+    // funzione per girare una parola
 
 
 
+    function reverseString(str) {
+        return str.split("").reverse().join("");
+    }
 
 
+    //--------------------------------------------------------------------------------------------------------------------------
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    // tabella contenente 
     var table = "<table>";
 
     for (var riga = 0; riga < 10; riga++) {
