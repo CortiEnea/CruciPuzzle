@@ -1,7 +1,15 @@
 var listaParole;
 var err;
+var parolaRan;
+var x;
+var y;
+var dimensione = 15;
+var a = new Array(dimensione);
+var pos;
+
 
 // funzione che serve per leggere il file che inserisce l'utente.
+
 function readFile() {
     var fileInput = document.getElementById('dizionario');
     var file = fileInput.files[0]; // Ottieni il primo file selezionato
@@ -12,7 +20,8 @@ function readFile() {
         listaParole = parole.split('\n');
         //giraParola();
 
-        stampa();
+       
+        generaArray();
     };
 
     reader.readAsText(file);
@@ -20,77 +29,41 @@ function readFile() {
 }
 // ------------------------------------------------------------------------------------------------------------------------
 
+
 // funzione per la stampa delle parole 
-function stampa() {
-    /*
-        for (var i = 0; i < listaParole.length; i++) {
-    
-            if (i < 9) {
-    
-                document.getElementById('output').innerHTML += listaParole[i] + "<br>";
-    
-            }
-    
-    
-            if (i >= 10 && i < 19) {
-    
-                document.getElementById('output2').innerHTML += listaParole[i] + "<br>";
-    
-    
-            } else if (i >= 20 && i < 29) {
-    
-                document.getElementById('output3').innerHTML += listaParole[i] + "<br>";
-            } else if (i >= 30 && i < 39) {
-    
-                document.getElementById('output4').innerHTML += listaParole[i] + "<br>";
-            } else if (i >= 40 && i < 49) {
-    
-                document.getElementById('output5').innerHTML += listaParole[i] + "<br>";
-            }
-    
-    
-        }*/
-
-
-    generaArray();
-}
 
 function generaArray() {
-    var a = new Array(10);
-    var dir = ['v', 'or', 'ob'];
+   
+    var dir = ['v', 'or', 'ob', 'obSx'];
 
     for (var i = 0; i < a.length; i++) {
-        a[i] = new Array(10);
+        a[i] = new Array(dimensione);
     }
 
-
-
-    for (var riga = 0; riga < 50;) {
-
-        var parolaRan = Math.floor(Math.random() * 1000); // numero casuale per parola
-        parolaRan = listaParole[parolaRan]; // prende numero casuale per la lista
-        parolaRan = parolaRan.toUpperCase(); // mette tuttte le lettere in maiuscolo
-        var x;
-        var y;
-        if (riga >= 25) {
+    for (pos = 0; pos < 40;) {
+        pescaParola();
+        
+        if (pos >= 20) {
             parolaRan = reverseString(parolaRan);
         }
+
         var direzione = dir[Math.floor(Math.random() * 3)];
 
         // in base alla direzione faccio i random per le cordinate
 
 
         if (direzione == "v") {
-            y = Math.floor(Math.random() * (10 - parolaRan.length));
-            x = Math.floor(Math.random() * (10));
+            y = Math.floor(Math.random() * (dimensione - parolaRan.length));
+            x = Math.floor(Math.random() * (dimensione));
         } else if (direzione == "ob") {
-            y = Math.floor(Math.random() * (10 - parolaRan.length));
-            x = Math.floor(Math.random() * (10 - parolaRan.length));
+            y = Math.floor(Math.random() * (dimensione - parolaRan.length));
+            x = Math.floor(Math.random() * (dimensione - parolaRan.length));
         } else if (direzione == "or") {
-            y = Math.floor(Math.random() * (10));
-            x = Math.floor(Math.random() * (10 - parolaRan.length));
-        } else {
-            console.log("m");
+            y = Math.floor(Math.random() * (dimensione));
+            x = Math.floor(Math.random() * (dimensione - parolaRan.length));
+        } else if(direzione == "obSx"){
+            y = Math.floor(Math.random() * (dimensione));
+            x = Math.floor(Math.random() * (dimensione - parolaRan.length)+ parolaRan.length);
         }
 
 
@@ -99,25 +72,48 @@ function generaArray() {
             if (direzione == "v") {
 
                 verticale();
+                
+
+
+
+                
 
 
             } else if (direzione == "or") {
 
                 orizzontale();
+                
+                
 
             } else if (direzione == "ob") {
 
-                obliquo();
+              obliquoDx();
+             
 
             }
-
-
         }
+        
+        
 
     }
+    riempiVuoti();
+    print();
+}
 
 
     //-----------------------------------------------------------------------------------------------------------------------------------------
+
+    // funzione che pesca una parola a caso e la mette tutta in maiuscolo
+
+    function pescaParola(){
+        parolaRan = Math.floor(Math.random() * 1000); // numero casuale per parola
+        parolaRan = listaParole[parolaRan]; // prende numero casuale per la lista
+        parolaRan = parolaRan.toUpperCase(); // mette tuttte le lettere in maiuscolo
+    }
+    
+
+    //---------------------------------------------------------------------------------------------------------------------------------
+
 
     // funzione di stampa obliqua
 
@@ -131,7 +127,8 @@ function generaArray() {
                 y++;
 
             }
-            riga++;
+            stampa(parolaRan);
+            pos++;
 
         }
     }
@@ -148,30 +145,51 @@ function generaArray() {
                 x++;
 
             }
-            riga++;
+            stampa(parolaRan);
+            pos++;
 
         }
     }
 
     // funzione di stampa obliqua
 
-    function obliquo() {
+    function obliquoDx() {
 
         if (controllaObliquo(parolaRan, y, x)) {
             for (var i = 0; i < parolaRan.length; i++) {
+             
                 console.log(`parola ${parolaRan}, riga ${y}, col ${x}, len ${parolaRan.length}, obliquo`);
                 a[y][x] = parolaRan[i];
                 y++;
                 x++;
 
             }
-            riga++;
+            stampa(parolaRan);
+
+            pos++;
+            
         }
     }
 
-    function nRandom(x, y, direzione) {
+    // funzione di stampa obliqua sinistra 
 
+    /*
+    function obliquoSx() {
+
+        if (controllaObliquoSx(parolaRan, y, x)) {
+            for (var i = 0; i < parolaRan.length; i++) {
+                console.log(`parola ${parolaRan}, riga ${y}, col ${x}, len ${parolaRan.length}, obliquoSx`);
+                a[y][x] = parolaRan[i];
+                y++;
+                x--;
+
+            }
+            pos++;
+        }
     }
+    */
+
+    
 
 
 
@@ -189,14 +207,18 @@ function generaArray() {
                     }
                 }
                 return true;
+               
             } else {
                 return false;
             }
+           
         } catch {
             return false;
         }
+        
 
     }
+
 
 
     // controllo che sia possibile stampare in orizzontale
@@ -243,6 +265,36 @@ function generaArray() {
 
     //--------------------------------------------------------------------------------------------------------------------------------------
 
+
+    function controllaObliquoSx(parola, X, Y) {
+
+        if (X >= 0 || Y >= 0) {
+            for (var i = 0; i < parola.length; i++) {
+                if (a[X][Y] == parola[i] || a[X][Y] == null) {
+                    Y++;
+                    X--;
+
+                } else {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     // funzione per girare una parola
 
 
@@ -254,19 +306,66 @@ function generaArray() {
 
     //--------------------------------------------------------------------------------------------------------------------------
 
+    function riempiVuoti(){
+        var alfabeto = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+        
+        for(var i = 0; i < dimensione; i++){
+            for(var j = 0; j < dimensione; j++){
+
+                if(a[i][j] == undefined){
+                    a[i][j] = alfabeto[Math.floor(Math.random() * 26)];
+                }
+            }
+        }
+    }
+
+
+    function stampa(p) {
+
+      
+        if (pos < 9) {
+            
+            document.getElementById('output').innerHTML += p + "<br>";
+
+        }else if (pos >= 9 && pos < 17) {
+
+            document.getElementById('output2').innerHTML += parolaRan + "<br>";
+
+
+        } else if (pos >= 17 && pos < 25) {
+
+            document.getElementById('output3').innerHTML += parolaRan + "<br>";
+        } else if (pos >= 25 && pos < 33) {
+
+            document.getElementById('output4').innerHTML += parolaRan + "<br>";
+        } else if (pos >= 33 && pos < 41) {
+
+            document.getElementById('output5').innerHTML += parolaRan + "<br>";
+        }
+        
+        
+           
+    
+    
+        
+    }
+    
+
+
+
+
 
     // tabella contenente 
-    var table = "<table>";
+    function print(){
+        var table = "<table>";
 
-    for (var riga = 0; riga < 10; riga++) {
+    for (var i = 0; i < dimensione; i++) {
         table += "<tr>";
-        for (var col = 0; col < 10; col++) {
+        for (var j = 0; j < dimensione; j++) {
 
-            if (a[riga][col] == undefined) {
-                table += "<td>-</td>";
-            } else {
-                table += "<td>" + a[riga][col] + "</td>";
-            }
+          
+                table += "<td>" + a[i][j] + "</td>";
+            
 
         }
 
@@ -276,5 +375,10 @@ function generaArray() {
     table += "</table>";
 
     document.getElementById('si').innerHTML = table;
+    }
 
-}
+
+
+   
+
+
