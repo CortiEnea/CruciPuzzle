@@ -5,7 +5,7 @@ var y;
 var dimensione = 15;
 var a = new Array(dimensione);
 var pos;
-var parolaNascosta;
+var pNascosta;
 var direzione;
 
 
@@ -57,22 +57,24 @@ function fileDefault() {
 
 // funzione per la stampa delle parole 
 
-function generaArray() {
+async function generaArray() {
     pulisci();
+    
 
     var dir = ['v', 'or', 'ob', 'obSx'];
 
     for (var i = 0; i < a.length; i++) {
         a[i] = new Array(dimensione);
     }
+    await nascosta();
 
-    for (pos = 0; pos < 40;) {
+    for (pos = 0; pos < 50;) {
         pescaParola();
         if (parolaRan.length == 2 || parolaRan.length == 1) {
             pescaParola();
         }
 
-        if (pos >= 20) {
+        if (pos >= 25) {
             parolaRan = reverseString(parolaRan);
         } 
 
@@ -104,7 +106,7 @@ function generaArray() {
 
 
     }
-    riempiVuoti();
+   
     print();
 }
 
@@ -137,7 +139,6 @@ function cordinate(){
     } else if (direzione == "obSx") {
         y = Math.floor(Math.random() * (dimensione - parolaRan.length));
         x = Math.floor(Math.random() * (dimensione - parolaRan.length) + parolaRan.length);
-        
 
     }
 }
@@ -149,6 +150,7 @@ function cordinate(){
 // funzione che serve per rimuovere le parole precedenti in caso si voglia rigenerare
 
 function pulisci(){
+
     document.getElementById('output').innerHTML = "";
     document.getElementById('output2').innerHTML = "";
     document.getElementById('output3').innerHTML = "";
@@ -238,6 +240,29 @@ function obliquoSx() {
     }
 }
 
+//-------------------------------------------------------------------------------------------------------------------------
+// funzione di stampa parola nascosta 
+
+
+async function nascosta() {
+
+    await parolaNascosta();
+    
+
+    alert(pNascosta);
+
+    for(var i = 0; i < pNascosta.length; i++){
+        var yNascosta = Math.floor(Math.random() * (dimensione - pNascosta.length));
+        var xNascosta = Math.floor(Math.random() * (dimensione - pNascosta.length));
+        a[yNascosta][xNascosta] = pNascosta[i];
+        
+        console.log(`parola ${pNascosta}, riga ${yNascosta}, col ${xNascosta}, len ${pNascosta.length}, Parola Nascosta`);
+    }
+   
+
+  
+}
+
 
 //-------------------------------------------------------------------------------------------------------------------------
 
@@ -314,7 +339,6 @@ function controllaObliquo(parola, X, Y) {
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 
-
 function controllaObliquoSx(parola, X, Y) {
 
     try {
@@ -335,6 +359,7 @@ function controllaObliquoSx(parola, X, Y) {
         return false;
     }
 }
+
 
 
 //-------------------------------------------------------------------------------------------------------------------------
@@ -360,6 +385,8 @@ function riempiVuoti() {
         }
     }
 }
+
+
 //-------------------------------------------------------------------------------------------------------------------------
 
 function stampa(p) {
@@ -416,16 +443,21 @@ function print() {
 }
 
 
+
 function parolaNascosta() {
+    return new Promise((resolve, reject) => {
     const xhttp = new XMLHttpRequest();
     xhttp.onload = function () {
-        var si = this.responseText.split("\n");
-        si = si[Math.floor(Math.random() * 9000)];
-
+        pNascosta = this.responseText.split("\n");
+        pNascosta = pNascosta[Math.floor(Math.random() * 9000)];
+        pNascosta = pNascosta.toUpperCase();
+        resolve();
     }
     xhttp.open("GET", "nomi.txt");
     xhttp.send();
+    })
 }
+
 
 
 
