@@ -8,6 +8,7 @@ var dimensione = 15;
 var a = new Array(dimensione);
 var pos;
 var pNascosta = "";
+var nParole = 50;
 var direzione;
 var vuoti;
 var b;
@@ -76,13 +77,13 @@ async function generaArray() {
     }
 
 
-    for (pos = 0; pos < 50;) {
+    for (pos = 0; pos < nParole;) {
         pescaParola();
         if (parolaRan.length == 2 || parolaRan.length == 1) {
             pescaParola();
         }
 
-        if (pos >= 25) {
+        if (pos >= (nParole/2)) {
             parolaRan = reverseString(parolaRan);
         }
 
