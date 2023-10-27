@@ -1,11 +1,11 @@
 // Variabili locali 
-
 var listaParole;
 var parolaRan;
 var x;
 var y;
 var dimensione = 15;
 var a = new Array(dimensione);
+var arrayParole = new Array();
 var pos;
 var pNascosta = "";
 var nParole = 50;
@@ -13,6 +13,8 @@ var direzione;
 var vuoti;
 var b;
 var indiceNascosta;
+
+var matrice = new Array(dimensione);
 
 // ------------------------------------------------------------------------------------------------------------------------
 
@@ -36,10 +38,11 @@ function prendiFile() {
 
     var reader = new FileReader();
     reader.onload = function (e) {
+
         var parole = e.target.result;
 
         listaParole = parole.split('\n');
-        
+
 
         generaArray();
 
@@ -67,7 +70,7 @@ function fileDefault() {
 async function generaArray() {
     b = true;
 
-     pulisci();
+    pulisci();
 
 
     var dir = ['v', 'or', 'ob', 'obSx'];
@@ -77,13 +80,15 @@ async function generaArray() {
     }
 
 
+
+
     for (pos = 0; pos < nParole;) {
         pescaParola();
         if (parolaRan.length == 2 || parolaRan.length == 1) {
             pescaParola();
         }
 
-        if (pos >= (nParole/2)) {
+        if (pos >= (nParole / 2)) {
             parolaRan = reverseString(parolaRan);
         }
 
@@ -91,51 +96,70 @@ async function generaArray() {
 
         cordinate();
 
+
         if (y >= 0 || x >= 0) {
 
             if (direzione == "v") {
 
+
+
                 verticale();
+
 
             } else if (direzione == "or") {
 
                 orizzontale();
+
 
             } else if (direzione == "ob") {
 
                 obliquoDx();
 
 
+
+
             } else if (direzione == "obSx") {
 
                 obliquoSx();
+
+
             }
         }
 
 
 
+
     }
 
-    await nascosta();
-    //riempiVuoti();
+
+    //await nascosta();
+    riempiVuoti();
     print();
 
-}
 
+}
 
 //-----------------------------------------------------------------------------------------------------------------------------------------
 
 // funzione che pesca una parola a caso e la mette tutta in maiuscolo
 
 function pescaParola() {
-    parolaRan = Math.floor(Math.random() * 1000); // numero casuale per parola
-    parolaRan = listaParole[parolaRan]; // prende numero casuale per la lista
-    parolaRan = parolaRan.toUpperCase(); // mette tuttte le lettere in maiuscolo
+        while(true){
+            parolaRan = Math.floor(Math.random() * 1000); // numero casuale per parola
+            parolaRan = listaParole[parolaRan]; // prende numero casuale per la lista
+            parolaRan = parolaRan.toUpperCase(); // mette tuttte le lettere in maiuscolo
+            
+            for(var i = 0; i <= arrayParole.length; i++){
+                if(parolaRan != arrayParole[i]){
+                    arrayParole.push(parolaRan);
+                    break;
+                }
+            }
+        }
+ 
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------
-
-
 function cordinate() {
     // in base alla direzione faccio i random per le cordinate
 
@@ -155,7 +179,6 @@ function cordinate() {
     }
 }
 
-
 //---------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -165,7 +188,7 @@ function pulisci() {
 
 
     document.getElementById('si').innerHTML = "";
-   
+
     document.getElementById('output').innerHTML = "";
     document.getElementById('output2').innerHTML = "";
     document.getElementById('output3').innerHTML = "";
@@ -190,8 +213,11 @@ function verticale() {
             y++;
 
         }
+
+
         stampa(parolaRan);
         pos++;
+
 
     }
 }
@@ -210,6 +236,7 @@ function orizzontale() {
 
         }
         stampa(parolaRan);
+        arrayParole.push(parolaRan);
         pos++;
 
     }
@@ -231,7 +258,7 @@ function obliquoDx() {
 
         }
         stampa(parolaRan);
-
+        arrayParole.push(parolaRan);
         pos++;
 
     }
@@ -252,6 +279,7 @@ function obliquoSx() {
 
         }
         stampa(parolaRan);
+        arrayParole.push(parolaRan);
         pos++;
     }
 }
@@ -300,20 +328,25 @@ async function nascosta() {
 
 function controllaVerticale(parola, Y, X) {
     try {
-        if (Y >= 0 || X >= 0) {
-            for (var i = 0; i < parola.length; i++) {
-                if (a[Y][X] == parola[i] || a[Y][X] == null) {
-                    Y++;
+    
+            if (Y >= 0 || X >= 0) {
+                for (var i = 0; i < parola.length; i++) {
+                    if (a[Y][X] == parola[i] || a[Y][X] == null) {
+                        Y++;
 
-                } else {
-                    return false;
+                    } else {
+                        return false;
+                    }
                 }
-            }
-            return true;
 
-        } else {
-            return false;
-        }
+                arrayParole.push(parola);
+                return true;
+
+            } else {
+                return false;
+            }
+
+       
 
     } catch {
         return false;
@@ -328,20 +361,22 @@ function controllaVerticale(parola, Y, X) {
 
 
 function controllaOrizzontale(parola, X, Y) {
+ 
+        if (X >= 0 || Y >= 0) {
+            for (var i = 0; i < parola.length; i++) {
+                if (a[X][Y] == parola[i] || a[X][Y] == null) {
+                    Y++;
 
-    if (X >= 0 || Y >= 0) {
-        for (var i = 0; i < parola.length; i++) {
-            if (a[X][Y] == parola[i] || a[X][Y] == null) {
-                Y++;
-
-            } else {
-                return false;
+                } else {
+                    return false;
+                }
             }
+            arrayParole.push(parola);
+            return true;
+        } else {
+            return false;
         }
-        return true;
-    } else {
-        return false;
-    }
+   
 }
 
 //-------------------------------------------------------------------------------------------------------------------------
@@ -349,7 +384,7 @@ function controllaOrizzontale(parola, X, Y) {
 // controllo che sia possibile stampare in obliquo
 
 function controllaObliquo(parola, X, Y) {
-
+ 
     if (X >= 0 || Y >= 0) {
         for (var i = 0; i < parola.length; i++) {
             if (a[X][Y] == parola[i] || a[X][Y] == null) {
@@ -360,6 +395,7 @@ function controllaObliquo(parola, X, Y) {
                 return false;
             }
         }
+        arrayParole.push(parola);
         return true;
     } else {
         return false;
@@ -371,7 +407,7 @@ function controllaObliquo(parola, X, Y) {
 function controllaObliquoSx(parola, X, Y) {
 
     try {
-
+       
         for (var i = 0; i < parola.length; i++) {
             if ((a[Y][X] == parola[i] || a[Y][X] == null) && (X >= 0) && (Y <= dimensione)) {
                 Y++;
@@ -381,6 +417,7 @@ function controllaObliquoSx(parola, X, Y) {
                 return false;
             }
         }
+        arrayParole.push(parola);
         return true;
 
 
@@ -478,7 +515,6 @@ function print() {
 
 
         }
-
         table += "</tr>";
     }
 
@@ -495,6 +531,7 @@ function parolaNascosta() {
         xhttp.onload = function () {
             pNascosta = this.responseText.split("\n");
             pNascosta = pNascosta[Math.floor(Math.random() * 98)];
+
             pNascosta = pNascosta.toUpperCase();
             resolve();
         }
@@ -502,6 +539,26 @@ function parolaNascosta() {
         xhttp.send();
     })
 }
+
+
+// controllo che la parola non sia già presente all'interno dell'array e quindi che non ci siano doppioni
+
+function checkParole(p) {
+
+  
+
+    console.log(p);
+    if (arrayParole.includes(p)) {
+        //alert("uguale" + p);
+        return false
+    } else {
+        return true;
+    }
+
+}
+
+
+
 
 
 
