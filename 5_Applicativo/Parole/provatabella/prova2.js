@@ -449,11 +449,11 @@ function parolaNascosta() {
     const xhttp = new XMLHttpRequest();
     xhttp.onload = function () {
         pNascosta = this.responseText.split("\n");
-        pNascosta = pNascosta[Math.floor(Math.random() * 9000)];
+        pNascosta = pNascosta[Math.floor(Math.random() * 80)];
         pNascosta = pNascosta.toUpperCase();
         resolve();
     }
-    xhttp.open("GET", "nomi.txt");
+    xhttp.open("GET", "parolaNascosta.txt");
     xhttp.send();
     })
 }
