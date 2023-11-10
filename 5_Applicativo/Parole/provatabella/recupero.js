@@ -3,7 +3,7 @@ var listaParole;
 var parolaRan;
 var x;
 var y;
-var dimensione = 20;
+var dimensione = 15;
 var a = new Array(dimensione);
 var arrayParole = new Array();
 var pos;
