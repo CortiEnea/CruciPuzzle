@@ -1,13 +1,21 @@
+// Variabili locali 
 var listaParole;
 var parolaRan;
 var x;
 var y;
-var dimensione = 15;
+var dimensione = 25;
 var a = new Array(dimensione);
+var arrayParole = new Array();
 var pos;
-var pNascosta;
+var pNascosta = "";
+var nParole = parseInt((dimensione * dimensione * 15) / 100);
 var direzione;
+var vuoti;
+var indiceNascosta;
 
+var arrayControllo = new Array(dimensione);
+
+// ------------------------------------------------------------------------------------------------------------------------
 
 // funzione che serve per leggere il file che inserisce l'utente.
 
@@ -29,10 +37,11 @@ function prendiFile() {
 
     var reader = new FileReader();
     reader.onload = function (e) {
+
         var parole = e.target.result;
 
         listaParole = parole.split('\n');
-        //giraParola();
+
 
         generaArray();
 
@@ -58,74 +67,83 @@ function fileDefault() {
 // funzione per la stampa delle parole 
 
 async function generaArray() {
+
+    arrayParole = [];
+
     pulisci();
-    
+
 
     var dir = ['v', 'or', 'ob', 'obSx'];
 
     for (var i = 0; i < a.length; i++) {
         a[i] = new Array(dimensione);
+        arrayControllo[i] = new Array(dimensione);
     }
-    await nascosta();
 
-    for (pos = 0; pos < 50;) {
+    for (pos = 0; pos < nParole;) {
         pescaParola();
-        if (parolaRan.length == 2 || parolaRan.length == 1) {
-            pescaParola();
-        }
 
-        if (pos >= 25) {
+
+        if (pos >= parseInt(nParole / 2)) {
             parolaRan = reverseString(parolaRan);
-        } 
+        }
 
         direzione = dir[Math.floor(Math.random() * 4)];
 
+
         cordinate();
+
 
         if (y >= 0 || x >= 0) {
 
             if (direzione == "v") {
-
                 verticale();
-
             } else if (direzione == "or") {
-
                 orizzontale();
-
             } else if (direzione == "ob") {
-
                 obliquoDx();
-
-
             } else if (direzione == "obSx") {
-
                 obliquoSx();
             }
         }
-
-
-
     }
-   
-    print();
-}
 
+    await nascosta();
+    //riempiVuoti();
+    print();
+    console.log(arrayParole.length);
+    console.log(nParole);
+    stampa();
+
+
+
+}
 
 //-----------------------------------------------------------------------------------------------------------------------------------------
 
 // funzione che pesca una parola a caso e la mette tutta in maiuscolo
 
 function pescaParola() {
-    parolaRan = Math.floor(Math.random() * 1000); // numero casuale per parola
-    parolaRan = listaParole[parolaRan]; // prende numero casuale per la lista
-    parolaRan = parolaRan.toUpperCase(); // mette tuttte le lettere in maiuscolo
+
+    var ciobanu = true;
+    while (ciobanu) {
+        parolaRan = Math.floor(Math.random() * 270000); // numero casuale per parola
+        parolaRan = listaParole[parolaRan]; // prende numero casuale per la lista
+        parolaRan = parolaRan.toUpperCase(); // mette tuttte le lettere in maiuscolo
+     
+        if(parolaRan.length > 2 && parolaRan.length < dimensione ){
+            ciobanu = false;
+        }
+    }
+
+
+
+
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------
-
-
-function cordinate(){
-      // in base alla direzione faccio i random per le cordinate
+function cordinate() {
+    // in base alla direzione faccio i random per le cordinate
 
     if (direzione == "v") {
         y = Math.floor(Math.random() * (dimensione - parolaRan.length));
@@ -143,19 +161,22 @@ function cordinate(){
     }
 }
 
-
 //---------------------------------------------------------------------------------------------------------------------------------
 
 
 // funzione che serve per rimuovere le parole precedenti in caso si voglia rigenerare
 
-function pulisci(){
+function pulisci() {
+
+
+    document.getElementById('si').innerHTML = "";
 
     document.getElementById('output').innerHTML = "";
     document.getElementById('output2').innerHTML = "";
     document.getElementById('output3').innerHTML = "";
     document.getElementById('output4').innerHTML = "";
     document.getElementById('output5').innerHTML = "";
+
 }
 
 
@@ -170,12 +191,16 @@ function verticale() {
         for (var i = 0; i < parolaRan.length; i++) {
             console.log(`parola ${parolaRan}, riga ${y}, col ${x}, len ${parolaRan.length}, verticale`);
             a[y][x] = parolaRan[i];
-
+            arrayControllo[y][x] = parolaRan[i];
             y++;
 
         }
-        stampa(parolaRan);
+
+
+        //stampa(parolaRan);
+        arrayParole.push(parolaRan);
         pos++;
+
 
     }
 }
@@ -189,11 +214,13 @@ function orizzontale() {
         for (var i = 0; i < parolaRan.length; i++) {
             console.log(`parola ${parolaRan}, riga ${y}, col ${x}, len ${parolaRan.length}, orizzontale`);
             a[y][x] = parolaRan[i];
-
+            arrayControllo[y][x] = parolaRan[i];
             x++;
 
         }
-        stampa(parolaRan);
+       //stampa(parolaRan);
+       arrayParole.push(parolaRan);
+
         pos++;
 
     }
@@ -208,13 +235,15 @@ function obliquoDx() {
     if (controllaObliquo(parolaRan, y, x)) {
         for (var i = 0; i < parolaRan.length; i++) {
 
-            console.log(`parola ${parolaRan}, riga ${y}, col ${x}, len ${parolaRan.length}, obliquo`);
+            console.log(`parola ${parolaRan}, riga ${y}, col ${x}, len ${parolaRan.length}, obliquoDx`);
             a[y][x] = parolaRan[i];
+            arrayControllo[y][x] = parolaRan[i];
             y++;
             x++;
 
         }
-        stampa(parolaRan);
+        //stampa(parolaRan);
+        arrayParole.push(parolaRan);
 
         pos++;
 
@@ -229,13 +258,17 @@ function obliquoSx() {
 
     if (controllaObliquoSx(parolaRan, y, x)) {
         for (var i = 0; i < parolaRan.length; i++) {
-            console.log(`parola ${parolaRan}, riga ${y}, col ${x}, len ${parolaRan.length}, obliquoSx`);
+            
             a[y][x] = parolaRan[i];
+            console.log(`parola ${parolaRan}, riga ${y}, col ${x}, len ${parolaRan.length}, obliquoSx`);
+            arrayControllo[y][x] = parolaRan[i];
             y++;
             x--;
 
         }
-        stampa(parolaRan);
+      //stampa(parolaRan);
+      arrayParole.push(parolaRan);
+
         pos++;
     }
 }
@@ -245,22 +278,34 @@ function obliquoSx() {
 
 
 async function nascosta() {
+    indiceNascosta = 0;
+    vuoti = 0;
+    contaVuoti();
 
-    await parolaNascosta();
-    
+    while (true) {
 
-    alert(pNascosta);
+        if (pNascosta.length != vuoti) {
 
-    for(var i = 0; i < pNascosta.length; i++){
-        var yNascosta = Math.floor(Math.random() * (dimensione - pNascosta.length));
-        var xNascosta = Math.floor(Math.random() * (dimensione - pNascosta.length));
-        a[yNascosta][xNascosta] = pNascosta[i];
-        
-        console.log(`parola ${pNascosta}, riga ${yNascosta}, col ${xNascosta}, len ${pNascosta.length}, Parola Nascosta`);
+            await parolaNascosta();
+
+        } else {
+
+            for (var i = 0; i < dimensione; i++) {
+                for (var j = 0; j < dimensione; j++) {
+
+                    if (a[i][j] == null) {
+
+                        a[i][j] = pNascosta[indiceNascosta];
+                        console.log(`parola ${pNascosta}, riga ${i}, col ${j}, len ${pNascosta.length}, Parola Nascosta`);
+                        indiceNascosta++;
+                    }
+                }
+            }
+
+            break;
+        }
     }
-   
 
-  
 }
 
 
@@ -271,6 +316,7 @@ async function nascosta() {
 
 function controllaVerticale(parola, Y, X) {
     try {
+
         if (Y >= 0 || X >= 0) {
             for (var i = 0; i < parola.length; i++) {
                 if (a[Y][X] == parola[i] || a[Y][X] == null) {
@@ -280,6 +326,8 @@ function controllaVerticale(parola, Y, X) {
                     return false;
                 }
             }
+
+
             return true;
 
         } else {
@@ -309,10 +357,12 @@ function controllaOrizzontale(parola, X, Y) {
                 return false;
             }
         }
+
         return true;
     } else {
         return false;
     }
+
 }
 
 //-------------------------------------------------------------------------------------------------------------------------
@@ -331,6 +381,7 @@ function controllaObliquo(parola, X, Y) {
                 return false;
             }
         }
+
         return true;
     } else {
         return false;
@@ -352,6 +403,7 @@ function controllaObliquoSx(parola, X, Y) {
                 return false;
             }
         }
+
         return true;
 
 
@@ -373,51 +425,71 @@ function reverseString(str) {
 
 //--------------------------------------------------------------------------------------------------------------------------
 
-function riempiVuoti() {
-    var alfabeto = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+function contaVuoti() {
 
     for (var i = 0; i < dimensione; i++) {
         for (var j = 0; j < dimensione; j++) {
 
             if (a[i][j] == undefined) {
-                a[i][j] = alfabeto[Math.floor(Math.random() * 26)];
+                vuoti++;
             }
         }
     }
 }
 
 
+
+//--------------------------------------------------------------------------------------------------------------------------
+function riempiVuoti() {
+    var alfabeto = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+    for (var i = 0; i < dimensione; i++) {
+        for (var j = 0; j < dimensione; j++) {
+            if (a[i][j] == undefined) {
+                a[i][j] = alfabeto[Math.floor(Math.random() * 26)].toUpperCase();
+                
+            }
+        }
+    }
+
+
+}
+
+
 //-------------------------------------------------------------------------------------------------------------------------
 
-function stampa(p) {
+function stampa(){
+
+    for(var i = 0; i < arrayParole.length; i++){
+
+        if (i >= parseInt(nParole / 2)) {
+            arrayParole[i] = reverseString(arrayParole[i]);
+        }
+    }
+    arrayParole.sort()
+    for(var i = 0; i < arrayParole.length; i++){
+       
+        if (i < 8) {
     
-
-    if (pos >= 20) {
-        parolaRan = reverseString(parolaRan);
+            document.getElementById('output').innerHTML += arrayParole[i] + "<br>";
+    
+        } else if (i >= 8 && i < 16) {
+    
+            document.getElementById('output2').innerHTML += arrayParole[i] + "<br>";
+    
+    
+        } else if (i >= 16 && i < 24) {
+    
+            document.getElementById('output3').innerHTML += arrayParole[i] + "<br>";
+        } else if (i >= 24 && i < 32) {
+    
+            document.getElementById('output4').innerHTML += arrayParole[i] + "<br>";
+        } else if (i >= 32 && i < 40) {
+    
+            document.getElementById('output5').innerHTML += arrayParole[i] + "<br>";
+        }
     }
 
-    if (pos < 8) {
-
-        document.getElementById('output').innerHTML += p + "<br>";
-
-    } else if (pos >= 8 && pos < 16) {
-
-        document.getElementById('output2').innerHTML += parolaRan + "<br>";
-
-
-    } else if (pos >= 16 && pos < 24) {
-
-
-        document.getElementById('output3').innerHTML += parolaRan + "<br>";
-    } else if (pos >= 24 && pos < 32) {
-
-        document.getElementById('output4').innerHTML += parolaRan + "<br>";
-    } else if (pos >= 32 && pos < 40) {
-
-        document.getElementById('output5').innerHTML += parolaRan + "<br>";
-    }
-
-
+    
 }
 //-------------------------------------------------------------------------------------------------------------------------
 // tabella contenente 
@@ -429,14 +501,17 @@ function print() {
         for (var j = 0; j < dimensione; j++) {
 
 
-            table += "<td>" + a[i][j] + "</td>";
+            if(arrayControllo[i][j] == null){
+                table += "<td style='background-color: red;'>" + a[i][j] + "</td>";
+            }else{
+                table += "<td>" + a[i][j] + "</td>";
+            }
 
 
         }
-
         table += "</tr>";
     }
-
+ 
     table += "</table>";
 
     document.getElementById('si').innerHTML = table;
@@ -446,21 +521,17 @@ function print() {
 
 function parolaNascosta() {
     return new Promise((resolve, reject) => {
-    const xhttp = new XMLHttpRequest();
-    xhttp.onload = function () {
-        pNascosta = this.responseText.split("\n");
-        pNascosta = pNascosta[Math.floor(Math.random() * 80)];
-        pNascosta = pNascosta.toUpperCase();
-        resolve();
-    }
-    xhttp.open("GET", "parolaNascosta.txt");
-    xhttp.send();
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function () {
+            pNascosta = this.responseText.split("\n");
+            pNascosta = pNascosta[Math.floor(Math.random() * 98)];
+
+            pNascosta = pNascosta.toUpperCase();
+            resolve();
+        }
+        xhttp.open("GET", "parolaNascosta.txt");
+        xhttp.send();
     })
 }
-
-
-
-
-
 
 

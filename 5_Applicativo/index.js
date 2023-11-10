@@ -1,9 +1,11 @@
+
+
 // Variabili locali 
 var listaParole;
 var parolaRan;
 var x;
 var y;
-var dimensione = 25;
+var dimensione = 20;
 var a = new Array(dimensione);
 var arrayParole = new Array();
 var pos;
@@ -58,7 +60,7 @@ function fileDefault() {
         listaParole = this.responseText.split("\n");
         generaArray();
     }
-    xhttp.open("GET", "dizionario.txt");
+    xhttp.open("GET", "Parole/provatabella/dizionario.txt");
     xhttp.send();
 }
 
@@ -105,16 +107,22 @@ async function generaArray() {
             } else if (direzione == "obSx") {
                 obliquoSx();
             }
+
+           
         }
+
     }
+
+
 
     await nascosta();
     //riempiVuoti();
     print();
     console.log(arrayParole.length);
-    console.log(nParole);
+    
     stampa();
 
+    return;
 
 
 
@@ -132,8 +140,8 @@ function pescaParola() {
         parolaRan = listaParole[parolaRan]; // prende numero casuale per la lista
         parolaRan = parolaRan.toUpperCase(); // mette tuttte le lettere in maiuscolo
         //listaParole.splice(parolaRan,1);
-        if(parolaRan.length > 2 && parolaRan.length < dimensione ){
-            
+        if (parolaRan.length > 2 && parolaRan.length < dimensione) {
+
             ciobanu = false;
         }
     }
@@ -220,8 +228,8 @@ function orizzontale() {
             x++;
 
         }
-       //stampa(parolaRan);
-       arrayParole.push(parolaRan);
+        //stampa(parolaRan);
+        arrayParole.push(parolaRan);
 
         pos++;
 
@@ -260,7 +268,7 @@ function obliquoSx() {
 
     if (controllaObliquoSx(parolaRan, y, x)) {
         for (var i = 0; i < parolaRan.length; i++) {
-            
+
             a[y][x] = parolaRan[i];
             console.log(`parola ${parolaRan}, riga ${y}, col ${x}, len ${parolaRan.length}, obliquoSx`);
             arrayControllo[y][x] = parolaRan[i];
@@ -268,8 +276,8 @@ function obliquoSx() {
             x--;
 
         }
-      //stampa(parolaRan);
-      arrayParole.push(parolaRan);
+        //stampa(parolaRan);
+        arrayParole.push(parolaRan);
 
         pos++;
     }
@@ -448,7 +456,7 @@ function riempiVuoti() {
         for (var j = 0; j < dimensione; j++) {
             if (a[i][j] == undefined) {
                 a[i][j] = alfabeto[Math.floor(Math.random() * 26)].toUpperCase();
-                
+
             }
         }
     }
@@ -459,39 +467,39 @@ function riempiVuoti() {
 
 //-------------------------------------------------------------------------------------------------------------------------
 
-function stampa(){
+function stampa() {
 
-    for(var i = 0; i < arrayParole.length; i++){
+    for (var i = 0; i < arrayParole.length; i++) {
 
         if (i >= parseInt(nParole / 2)) {
             arrayParole[i] = reverseString(arrayParole[i]);
         }
     }
     arrayParole.sort()
-    for(var i = 0; i < arrayParole.length; i++){
-       
+    for (var i = 0; i < arrayParole.length; i++) {
+
         if (i < 8) {
-    
+
             document.getElementById('output').innerHTML += arrayParole[i] + "<br>";
-    
+
         } else if (i >= 8 && i < 16) {
-    
+
             document.getElementById('output2').innerHTML += arrayParole[i] + "<br>";
-    
-    
+
+
         } else if (i >= 16 && i < 24) {
-    
+
             document.getElementById('output3').innerHTML += arrayParole[i] + "<br>";
         } else if (i >= 24 && i < 32) {
-    
+
             document.getElementById('output4').innerHTML += arrayParole[i] + "<br>";
         } else if (i >= 32 && i < 40) {
-    
+
             document.getElementById('output5').innerHTML += arrayParole[i] + "<br>";
         }
     }
 
-    
+
 }
 //-------------------------------------------------------------------------------------------------------------------------
 // tabella contenente 
@@ -503,9 +511,9 @@ function print() {
         for (var j = 0; j < dimensione; j++) {
 
 
-            if(arrayControllo[i][j] == null){
+            if (arrayControllo[i][j] == null) {
                 table += "<td style='background-color: red;'>" + a[i][j] + "</td>";
-            }else{
+            } else {
                 table += "<td>" + a[i][j] + "</td>";
             }
 
@@ -531,7 +539,7 @@ function parolaNascosta() {
             pNascosta = pNascosta.toUpperCase();
             resolve();
         }
-        xhttp.open("GET", "parolaNascosta.txt");
+        xhttp.open("GET", "Parole/provatabella/parolaNascosta.txt");
         xhttp.send();
     })
 }
@@ -540,3 +548,127 @@ function parolaNascosta() {
 // controllo che la parola non sia già presente all'interno dell'array e quindi che non ci siano doppioni
 
 
+// la funzione serve per cambiare il font della tabella 
+function changeFont(){
+    document.getElementById("outputs").style.fontFamily = document.getElementById("input-font").value;
+    document.getElementById("si").style.fontFamily = document.getElementById("input-font").value;
+}
+
+var arrayFonts = [
+    'monospace',
+    'accademia inciso let',
+    'algerino',
+    'stupire',
+    'arial',
+    'arial nero',
+    'Balthazar',
+    'bankgothic lt bt',
+    'bart',
+    'bimini',
+    'sans fumetti ms',
+    'book antiqua',
+    'Bookman Old Style',
+    'millanteria',
+    'Britannic grassetto',
+    'script di pennello mt',
+    'Century Gothic',
+    'scolastico secolo',
+    'baratro',
+    'Chicago',
+    'colonna mt',
+    'sans fumetti ms',
+    'commercialscript bt',
+    'Coolsville',
+    'corriere',
+    'Courier New',
+    'corsivo',
+    'dayton',
+    'Desdemona',
+    'fantasia',
+    'pennello piatto',
+    'luce mt ribalta',
+    'futurablack bt',
+    'futuralight bt',
+    'Garamond',
+    'fissare',
+    'Ginevra',
+    'Georgia',
+    'geotype tt',
+    'helterskelter',
+    'helvetica',
+    'herman',
+    'evidenziare lasciare',
+    'urto',
+    'giullare',
+    'joan',
+    'john pratico let',
+    'Jokerman lasciare',
+    'Kelt',
+    'bambini',
+    'mt kino',
+    'La Bamba let',
+    'litografia',
+    'console lucida',
+    'simboli mappa',
+    'matteroffact',
+    'matisse itc',
+    'maturità capitali di script mt',
+    'mekanik let',
+    'monaco',
+    'specie monotipo',
+    'MS LineDraw',
+    'New York',
+    'olddreadfulno7 bt',
+    'arancione let',
+    'Palatino',
+    'locandina',
+    'pompa demi let grassetto',
+    'puppylike',
+    'roland',
+    'sans-serif',
+    'script',
+    'collottola lasciare',
+    'serif',
+    'short mano',
+    'segni normali',
+    'simplex',
+    'simpson',
+    'stilo bt',
+    'superfrench',
+    'surfer',
+    'swis721 bt',
+    'swis721 blkoul bt',
+    'symap',
+    'simbolo',
+    'tahoma',
+    'technic',
+    'tempus sans itc',
+    'Terk',
+    'volte',
+    'times new roman',
+    'ms trebuchet',
+    'di moda',
+    'txt',
+    'verdana',
+    'let vittoriano',
+    'Vineta bt',
+    'vivian',
+    'occidentale',
+    'westminster',
+    'westwood lasciare',
+    'ampia latin',
+    'zapfellipt bt'
+]
+
+function font(){
+    document.getElementById('font').innerHTML = "";
+    var result = ' <select id="input-font" class="input"  onchange="changeFont();">'
+    result += `<option value="${arrayFonts[0]}" selected ="selected">${arrayFonts[0]}</option>`
+    for(var i = 1;i<arrayFonts.length;i++){
+        result += `<option value="${arrayFonts[i]}">${arrayFonts[i]}</option>`
+    }
+    result += '</select>';
+    document.getElementById('font').innerHTML = result;
+   
+
+}

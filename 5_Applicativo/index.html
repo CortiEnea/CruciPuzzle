@@ -11,15 +11,76 @@
 </head>
 <script src="index.js"></script>
 
-<body>
+
+<body onload="font()"> 
 
     <center>
         <h1>Cruci Puzzle</h1>
     </center>
-    <p>Difficoltà</p>
-    <select name="Difficoltà" id="lang">
-        <option value="Facile">Facile</option>
-    </select>
+   
+    
+    
+    <div id="cols">
+        <div>
+            <h2>Dimensione</h2>
+            <br>
+            <h2>Difficoltà</h2>
+            <br>
+            <h2>Font</h2>
+            <br>
+            <h2>Dizionario</h2>
+        </div>
+        <div>
+           
+            <select name="Diemensione">
+                <option value="Facile">Piccola</option>
+                <option value="Facile">Media(15x15)</option>
+                <option value="Facile">Grande(20x20)</option>
+            </select>
+            <br> 
+            <br>
+            <br>
+            <br>
+            <select name="Difficoltà">
+                <option value="Facile">Bambino</option>
+                <option value="Facile">Adulto</option>
+            </select>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div id="font">
+
+            </div>
+
+          <br>
+          <br>
+          <br>
+          <input style="visibility: hidden; width: 0;" type="file" id="dizionario" name="dizionario">
+          <button>Default</button>
+          <label id="seleziona-button" for="dizionario"> Seleziona </label>
+          
+
+        </div>  
+    </div>
+
+   
+
+        <button onclick="readFile()">Leggi File</button>
+       
+    
+        <center>
+            <div id="si"></div>
+    
+        </center>
+        <div id="outputs">
+            <div id="output"></div>
+            <div id="output2"></div>
+            <div id="output3"></div>
+            <div id="output4"></div>
+            <div id="output5"></div>
+        </div>
+
 
   
     
