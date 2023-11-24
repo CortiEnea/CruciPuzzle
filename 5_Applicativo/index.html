@@ -9,68 +9,87 @@
     <link rel="stylesheet" href="index.css">
 
 </head>
-<script src="index.js"></script>
+<script src="javascript/sceltaDifficolta.js"></script>
+<script src="javascript/utente.js"></script>
+<script src="javascript/stampa.js"></script>
+<script src="javascript/controlli.js"></script>
+<script src="javascript/pescaParole.js"></script>
+<script src="javascript/letturaFile.js"></script>
+<script src="javascript/variabili.js"></script>
+<script src="javascript/index.js"></script>
+<script src="javascript/font.js"></script>
+<script src="javascript/soluzione.js"></script>
+
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 
 
 <body onload="font()"> 
 
-    <center>
-        <h1>Cruci Puzzle</h1>
-    </center>
-   
-    
-    
-    <div id="cols">
-        <div>
-            <h2>Dimensione</h2>
-            <br>
-            <h2>Difficoltà</h2>
-            <br>
-            <h2>Font</h2>
-            <br>
-            <h2>Dizionario</h2>
-        </div>
-        <div>
-           
-            <select name="Diemensione">
-                <option value="Facile">Piccola</option>
-                <option value="Facile">Media(15x15)</option>
-                <option value="Facile">Grande(20x20)</option>
-            </select>
-            <br> 
-            <br>
-            <br>
-            <br>
-            <select name="Difficoltà">
-                <option value="Facile">Bambino</option>
-                <option value="Facile">Adulto</option>
-            </select>
-            <br>
-            <br>
-            <br>
-            <br>
-            <div id="font">
-
+    <div id="nascondi-print">
+        <center>
+            <h1>Cruci Puzzle</h1>
+        </center>
+       
+        
+        
+        <div id="cols">
+            <div>
+                <h2>Dimensione</h2>
+                <br>
+                <h2>Difficoltà</h2>
+                <br>
+                <h2 id="fonth2">Font</h2>
+                <br>
+                <h2>Dizionario</h2>
             </div>
-
-          <br>
-          <br>
-          <br>
-          <input style="visibility: hidden; width: 0;" type="file" id="dizionario" name="dizionario">
-          <button>Default</button>
-          <label id="seleziona-button" for="dizionario"> Seleziona </label>
-          
-
-        </div>  
+            <div>
+               
+                <select name="Diemensione" id="dimensione">
+                    <option value="Piccola">Piccola(10x10)</option>
+                    <option value="Media">Media(15x15)</option>
+                    <option value="Grande">Grande(20x20)</option>
+                </select>
+                <br> 
+                <br>
+                <br>
+                <br>
+                <select name="Difficoltà" id="difficolta">
+                    <option value="bambino">Bambino</option>
+                    <option value="adulto">Adulto</option>
+                </select>
+                <br>
+                <br>
+                <br>
+                <br>
+                <div id="font">
+    
+                </div>
+    
+              <br>
+              <br>
+              <br>
+              <input style="visibility: hidden; width: 0;" type="file" id="dizionario" name="dizionario">
+              <button>Default</button>
+              <label id="seleziona-button" for="dizionario"> Seleziona </label>
+              
+    
+            </div>  
+        </div>
+    
+       
+    
+            <button onclick="readFile()">Genera</button>
+            <button onclick="scaricaPartePagina('download')">Scarica</button>
+            <button onclick="downloadText()">Scarica</button>
+            <button onclick="stampaSoluzione()">Genera Soluzione</button>
+            
     </div>
 
-   
-
-        <button onclick="readFile()">Leggi File</button>
+    <div class="download">
        
     
         <center>
-            <div id="si"></div>
+            <div id="tabella"></div>
     
         </center>
         <div id="outputs">
@@ -80,6 +99,19 @@
             <div id="output4"></div>
             <div id="output5"></div>
         </div>
+        <center>
+            <h2 id="nascosta"></h2>
+        </center>
+    </div>
+
+
+
+    
+    <center>
+        <h2 id="sol"></h2>
+        <div id="soluzione"></div>
+        <h2 id="soluzioneNascosta"></h2>
+    </center>
 
 
   
