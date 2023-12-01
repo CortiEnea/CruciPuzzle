@@ -3,7 +3,6 @@ function stampaSoluzione() {
     document.getElementById('sol').innerHTML = "Soluzione:";
     var soluzione = "<table>";
     
-
     for (var i = 0; i < dimensione; i++) {
         
         soluzione += "<tr>"
@@ -11,7 +10,6 @@ function stampaSoluzione() {
         for (var j = 0; j < dimensione; j++) {
                 colore = coloriCelle[i][j]; 
                 soluzione += `<td style='background-color: ${colore};'>` +  array[i][j] + "</td>";      
-
         }
         soluzione += "</tr>";
     }
@@ -24,6 +22,5 @@ function stampaSoluzione() {
 
         document.getElementById('soluzioneNascosta').innerHTML = "Parola nascosta: " +  pNascosta;
     }
-
     
 }

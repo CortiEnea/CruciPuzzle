@@ -57,6 +57,9 @@ async function generaArray() {
     await sceltaDiffficolta();
     print();
     stampa();
+
+    mostraElementi();
+  
     return;
 
 }
@@ -267,21 +270,28 @@ function riempiVuoti() {
         }
     }
 
+    
 
+
+}
+
+
+
+//------------------------------------------------------------------------------------------------------------------------
+
+
+
+function mostraElementi(){
+    var elements = document.getElementsByClassName('invisible');
+
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].style.display = "block";
+    }
 }
 
 
 //-------------------------------------------------------------------------------------------------------------------------
-function scaricaPartePagina(classname) {
-    const element = document.getElementsByClassName(classname)[0];
 
-    html2canvas(element).then(canvas => {
-        const link = document.createElement('a');
-        link.download = 'parte_pagina.png';
-        link.href = canvas.toDataURL("image/png");
-        link.click();
-    });
-}
 
 function downloadText() {
     var element = document.querySelector('.download');
@@ -298,3 +308,21 @@ function downloadText() {
     
     document.body.removeChild(downloadLink);
   }
+
+
+  function downloadHTML() {
+    var element = document.querySelector('.download');
+    
+    // Utilizziamo outerHTML per ottenere l'intero elemento con il tag
+    var blob = new Blob([element.outerHTML], { type: 'text/html' });
+    
+    var url = window.URL.createObjectURL(blob);
+    var downloadLink = document.createElement('a');
+    downloadLink.href = url;
+    downloadLink.download = 'parte_pagina.html';
+
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    
+    document.body.removeChild(downloadLink);
+}

@@ -56,7 +56,7 @@ table{
 
 
 
-#cols{
+.cols{
     display: flex;
     width: 95%;
     margin-top: 40px;
@@ -66,7 +66,7 @@ table{
     
 }
 
-#cols div{
+.cols div{
     width: 50%;
     text-align: center;
 }
@@ -74,7 +74,6 @@ table{
 select{
     padding: 10px;
     font-size: 16px;
-    
 }
 
 #seleziona-button{
@@ -99,7 +98,7 @@ button{
 }
 
 @media print{
-    #nascondi-print{
+    .nascondi-print{
         display: none;
     }
 
@@ -112,7 +111,8 @@ button{
       }
     
     #outputs{
-        margin-left: 12.5%;
+        margin-left: 5.5%;
+        gap: 25px;
     }
       
 }
@@ -129,4 +129,27 @@ button{
 .soluzione{
     position: relative;
     opacity: 1;
+}
+
+.invisible{
+    display:none;
+}
+
+
+h2{
+    color: green;
+}
+
+#font{
+    text-align: right;
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    margin: 0;
+    width: 100%;
+}
+
+#fontStrano{
+    padding-right: 300px;
+    text-align: right;
 }

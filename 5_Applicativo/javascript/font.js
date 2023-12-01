@@ -15,7 +15,6 @@ function font() {
     result += '</select>';
     document.getElementById('font').innerHTML = result;
 
-
 }
 
 

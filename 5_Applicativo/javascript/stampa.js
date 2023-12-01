@@ -29,7 +29,6 @@ function stampa() {
         }
     }
 
-
 }
 
 //-------------------------------------------------------------------------------------------------------------------------
@@ -39,20 +38,9 @@ function stampa() {
 // stampa della tabella
 
 
-/*function cercaColoreParola(row, col){
-    let numParola = -1;
-    for(numParola = 0; numParola < arrayPosizioniParole.length; numParola++){
-        for(let cellaLettera = 0; cellaLettera < arrayPosizioniParole[numParola].length; cellaLettera++){
-
-        }
-    }
-    return numParola;
-}
-*/
 function randomRGBColor(){
     return `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 0.5)`;
 }
-
 
 function print() {
     var table = "<table>";
@@ -66,14 +54,12 @@ function print() {
                
                 table +=  "<td>" + array[i][j] + "</td>";          
 
-
         }
         table += "</tr>";
     }
     table += "</table>";
-    
 
-    document.getElementById('tabella').innerHTML = table;
+    document.getElementById('tabella').innerHTML = table; 
 }
 
 

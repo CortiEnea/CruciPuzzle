@@ -35,21 +35,30 @@ async function parolaNascosta() {
     contaVuoti();
     var nascostePossibili = new Array();
    
-
     for (var i = 0; i < listaParoleNascosta.length; i++) {
+       
         if (listaParoleNascosta[i].length == vuoti) {
          
             nascostePossibili.push(listaParoleNascosta[i]);
         }
     }
 
-    if(nascostePossibili.length == 0){
-        alert("Odio lugano");
-        console.log(vuoti);
+    if (nascostePossibili.length == 0) {
+        var controllo = true
+        while(controllo){
+            var messaggio = prompt(`Inserisci una parola nascosta di ${vuoti} caratteri`);
+           
+            if(messaggio.length == vuoti){
+                pNascosta = messaggio
+                pNascosta = pNascosta.toUpperCase();
+                controllo = false
+            }
+        }
+    }else{
+        pNascosta = nascostePossibili[Math.floor(Math.random() * nascostePossibili.length)];
+        pNascosta = pNascosta.toUpperCase();
     }
 
-    pNascosta = nascostePossibili[Math.floor(Math.random() * nascostePossibili.length)];
-    pNascosta = pNascosta.toUpperCase();
 }
 
 

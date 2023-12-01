@@ -25,14 +25,15 @@
 
 <body onload="font()"> 
 
-    <div id="nascondi-print">
-        <center>
-            <h1>Cruci Puzzle</h1>
-        </center>
+    <center>
+        <h1>Cruci Puzzle</h1>
+    </center>
+    <div class="nascondi-print">
+        
        
         
         
-        <div id="cols">
+        <div class="cols">
             <div>
                 <h2>Dimensione</h2>
                 <br>
@@ -42,7 +43,7 @@
                 <br>
                 <h2>Dizionario</h2>
             </div>
-            <div>
+            <div id="fontStrano">
                
                 <select name="Diemensione" id="dimensione">
                     <option value="Piccola">Piccola(10x10)</option>
@@ -79,9 +80,11 @@
        
     
             <button onclick="readFile()">Genera</button>
-            <button onclick="scaricaPartePagina('download')">Scarica</button>
-            <button onclick="downloadText()">Scarica</button>
-            <button onclick="stampaSoluzione()">Genera Soluzione</button>
+            <div class="invisible">
+                <button onclick="stampaSoluzione()">Genera Soluzione</button>
+            </div>
+           
+            
             
     </div>
 
@@ -99,29 +102,37 @@
             <div id="output4"></div>
             <div id="output5"></div>
         </div>
+    </div>
         <center>
             <h2 id="nascosta"></h2>
+            <br>
+    
+           
         </center>
+    
     </div>
+    <div class="invisible">
+        <div class="nascondi-print">
+            <center>
+                <button onclick="downloadHTML()">Scarica HTML</button>
+                <button onclick="downloadText()">Scarica TXT</button>
+                
+            </center>
+        </div>
+        
+    
+    
+        
 
 
 
     
     <center>
+        
         <h2 id="sol"></h2>
         <div id="soluzione"></div>
         <h2 id="soluzioneNascosta"></h2>
     </center>
-
-
-  
-    
-    
-
-
-
-
-
 
 
 </body>
