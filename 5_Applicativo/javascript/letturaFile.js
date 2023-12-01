@@ -5,7 +5,7 @@ async function fetchWords(url) {
 
         // Controlla se il tipo di contenuto è "text/plain"
         if (!response.headers.get('content-type').includes('text/plain')) {
-            alert("Il file non è di tipo TXT.");
+            //alert("Il file non è di tipo TXT.");
             return [];
         }
 
